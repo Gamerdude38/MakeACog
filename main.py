@@ -12,7 +12,7 @@ Screen Numbers
 2: Cog head
 3: Cog department
 4: Name
-5: UI disappears
+5: Finished!
 '''
 
 
@@ -22,6 +22,7 @@ from direct.showbase.ShowBase import ShowBase
 from direct.showbase import DirectObject
 from direct.gui.DirectGui import *
 from direct.gui.OnscreenText import OnscreenText
+from direct.gui.OnscreenImage import OnscreenImage
 import sys,os
 
 class MakeACog(ShowBase):
@@ -71,19 +72,26 @@ class MakeACog(ShowBase):
 		self.backButton.setScale(-0.75,-1,0.5)
 		
 	def welcomeScreen(self):
-		print("Welcome Screen")
+		self.instructionText.setText('Salutations, new Cog. Welcome to Make a Cog! Click the button below to continue.')
+		self.backButton.hide()
 	
 	def cogBodyScreen(self):
-		print("Cog Body Screen")
+		self.instructionText.setText('Select a body type.')
+		self.backButton.show()
 
 	def cogHeadScreen(self):
-		print("Cog Head Screen")
+		self.instructionText.setText('Select a head.')
 
 	def cogDepScreen(self):
-		print("Cog Department Screen")
+		self.instructionText.setText('Choose your department.')
 
 	def namingScreen(self):
-		print("Naming Screen")
+		self.instructionText.setText('Type in a name.')
+		self.nextButton.show()
+	
+	def finishedScreen(self):
+		self.instructionText.setText('Welcome to COGS, Inc., new cog. If you wish to make changes, click the back button.')
+		self.nextButton.hide()
 
 	def nextButtonClick(self):
 		self.currentScreen += 1
@@ -115,8 +123,7 @@ class MakeACog(ShowBase):
 		elif self.currentScreen == 4:
 			self.namingScreen()
 		elif self.currentScreen == 5:
-			print('Deactivate UI')
-			#deactivate UI
+			self.finishedScreen()
 			
 makeACog = MakeACog()
 makeACog.run()
