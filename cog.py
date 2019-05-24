@@ -5,10 +5,10 @@ Description: A class used to create a Cog Actor that can be changed during
 runtime
 
 Variables:
-currentHead: Represents the 32 different cog heads available [0-31]
-currentBody: Represents the 3 different cog body types [0-2]
+currentHead: Represents the 32 different cog heads available [Ranges from 0 to 31]
+currentBody: Represents the 3 different cog body types [Ranges from 0 to 2]
 currentDept: Represents the 4 different cog departments, plus the waiter
-suit [0-4]
+suit [Ranges from 0 to 4]
 '''
 
 from direct.actor.Actor import Actor
@@ -22,7 +22,7 @@ class Cog():
 	def __init__(self):
 		#Define variables to keep track of the current head, body, and department
 		self.currentBody = 0
-		self.currentHead = 22
+		self.currentHead = 0
 		self.currentDept = 0
 		
 		#Define a boolean to determine if the cog is in view
@@ -52,17 +52,20 @@ class Cog():
 		if self.currentBody == 0:
 			self.cog = Actor(self.pandaDirectory + '/resources/cogs/models/tt_a_ene_cga_zero.bam',{
 						'neutral':(self.pandaDirectory + '/resources/cogs/animations/tt_a_ene_cga_neutral.bam'),
-						'walk':(self.pandaDirectory + '/resources/cogs/animations/tt_a_ene_cga_walk.bam')
+						'walk':(self.pandaDirectory + '/resources/cogs/animations/tt_a_ene_cga_walk.bam'),
+						'victory':(self.pandaDirectory + '/resources/cogs/animations/tt_a_ene_cga_victory.bam')
 						})
 		elif self.currentBody == 1:
 			self.cog = Actor(self.pandaDirectory + '/resources/cogs/models/tt_a_ene_cgb_zero.bam',{
 						'neutral':(self.pandaDirectory + '/resources/cogs/animations/tt_a_ene_cgb_neutral.bam'),
-						'walk':(self.pandaDirectory + '/resources/cogs/animations/tt_a_ene_cgb_walk.bam')
+						'walk':(self.pandaDirectory + '/resources/cogs/animations/tt_a_ene_cgb_walk.bam'),
+						'victory':(self.pandaDirectory + '/resources/cogs/animations/tt_a_ene_cgb_victory.bam')
 						})
 		elif self.currentBody == 2:
 			self.cog = Actor(self.pandaDirectory + '/resources/cogs/models/tt_a_ene_cgc_zero.bam',{
 						'neutral':(self.pandaDirectory + '/resources/cogs/animations/tt_a_ene_cgc_neutral.bam'),
-						'walk':(self.pandaDirectory + '/resources/cogs/animations/tt_a_ene_cgc_walk.bam')
+						'walk':(self.pandaDirectory + '/resources/cogs/animations/tt_a_ene_cgc_walk.bam'),
+						'victory':(self.pandaDirectory + '/resources/cogs/animations/tt_a_ene_cgc_victory.bam')
 						})
 		else:
 			raise Exception('UH OH! currentBody is not between 0 and 2! The value of currentBody is {}'.format(self.currentBody))
@@ -323,3 +326,15 @@ class Cog():
 		self.exitView.start()
 		
 		self.isInView = False
+		
+	def playNeutral(self):
+		#Makes the neutral animation available to the GUI class
+		self.cog.loop('neutral')
+		
+	def playVictory(self):
+		#Makes the victory animation available to the GUI class
+		self.cog.loop('victory')
+	
+	def getAnimPlaying(self):
+		#returns the animation playing for the GUI class
+		return self.cog.getCurrentAnim()

@@ -2,7 +2,7 @@
 John Maurer
 
 Description: Description: A driver class for Construct A Cog, a program 
-that demonstrates DirectGUI  knowledge in conjuction with 3D rendering 
+that demonstrates DirectGUI knowledge in conjuction with 3D rendering 
 elements in Panda3D using models and other resources from the Toontown 
 Rewritten Phase Files.
 '''
@@ -34,12 +34,10 @@ class ConstructACog(ShowBase):
 		
 		#Set up the fixed camera position
 		self.camera.setPos(10,-15,7)
-		self.camera.setHpr(20,-7,0)
+		self.camera.setHpr(20,-8,0)
 		
 		#Create the GUI
 		self.gui = ConstructACogGUI()
-		
-		#self.oobe()
 		
 constructACog = ConstructACog()
 constructACog.run()

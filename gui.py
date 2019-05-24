@@ -5,11 +5,10 @@ Description: A class used to construct the GUI used in Construct A Cog.
 This class demonstrates the use of multi-class programming and organization
 via the separation of game elements.
 
-Screen Numbers
-0: Welcome screen
-1: Design Screen
-2: Name
-3: Finished!
+Variables:
+currentScreen: Represents the GUI screen that is currently being displayed 
+[Ranges from 0 to 3]
+name: Stores the string typed in by the user in the DirectEntry box
 '''
 
 from panda3d.core import *
@@ -23,7 +22,7 @@ import sys,os
 
 class ConstructACogGUI():
 	def __init__(self):
-		
+		#Define variables and file path locations
 		self.currentScreen = 0
 		self.name = 'New Cog'
 		self.currentDirectory = os.path.abspath(sys.path[0])
@@ -170,8 +169,10 @@ class ConstructACogGUI():
 											pos=(-0.3,0,-0.35))
 		self.backButton.hide()
 		
+		#Call the Cog class to establish the Actor
 		self.cog = Cog()
 		
+		#Change the current UI screen
 		self.screenDirector()
 		
 	def headLeftClick(self):
@@ -203,6 +204,7 @@ class ConstructACogGUI():
 		self.name = text
 		self.currentScreen = 3
 		
+		#Change the current UI screen
 		self.screenDirector()
 	
 	def setEntryFocus(self):
@@ -216,6 +218,7 @@ class ConstructACogGUI():
 		self.nameEntry.setFocus()
 		
 	def entryUnfocused(self):
+		#Set whatever is currently in the box to the name variable
 		self.name = self.nameEntry.get()
 
 	def nextButtonClick(self):
@@ -226,9 +229,11 @@ class ConstructACogGUI():
 		if self.currentScreen > 3:
 			self.currentScreen = 3
 			return
-			
+		
+		#Set the focus of the text entry box	
 		self.setEntryFocus()
 		
+		#Change the current UI screen
 		self.screenDirector()
 		
 	def backButtonClick(self):
@@ -239,9 +244,11 @@ class ConstructACogGUI():
 		if self.currentScreen < 0:
 			self.currentScreen = 0
 			return
-			
+		
+		#Set the focus of the text entry box
 		self.setEntryFocus()
 		
+		#Change the current UI screen
 		self.screenDirector()
 		
 	def screenDirector(self):
@@ -271,6 +278,7 @@ class ConstructACogGUI():
 		self.bodySelector.hide()
 		self.deptSelector.hide()
 		
+		#Determine whether the cog should exit the scene if its in view already
 		if(self.cog.isInView):
 			self.cog.exitScene()
 	
@@ -283,6 +291,7 @@ class ConstructACogGUI():
 		self.deptSelector.show()
 		self.nameEntryBackground.hide()
 		
+		#Determine whether the cog should reenter the scene if its in view already
 		if(not self.cog.isInView):
 			self.cog.enterScene()
 
@@ -294,6 +303,10 @@ class ConstructACogGUI():
 		self.bodySelector.hide()
 		self.deptSelector.hide()
 		self.nameEntryBackground.show()
+		
+		#See if the cog is playing the victory animation and change to keep the animation smooth
+		if self.cog.getAnimPlaying() == 'victory':
+			self.cog.playNeutral()
 	
 	def finishedScreen(self):
 		#Show/hide respective GUI elements
@@ -301,3 +314,6 @@ class ConstructACogGUI():
 									If you wish to make changes, click the back button.')
 		self.nextButton.hide()
 		self.nameEntryBackground.hide()
+		
+		#Have the cog dance
+		self.cog.playVictory()
